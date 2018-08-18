@@ -1,28 +1,28 @@
 import numpy as np
 import tensorflow as tf
 
-def get_data(name, batch_size, data_shape=16, train=True):
+def get_data(name, batch_size=1, data_shape=16, train=True):
+    def parse_function(example_proto):
+        parse_dict = {'data':tf.FixedLenFeature(shape=(16) , dtype=tf.int64, default_value=None),\
+                      'label':tf.FixedLenFeature(shape=(1), dtype=tf.int64, default_value=None)}
+        parse_example = tf.parse_single_example(example_proto, parse_dict)
+        return parse_example
+
     with tf.name_scope('input_pipeline'):
-        filename_queue = tf.train.string_input_producer([name],shuffle=True)
-        # read tfrecord
-        reader = tf.TextLineReader()
-        key, value = reader.read(filename_queue)
-        record_defaults = [['0'], ['1 111 186 105 83 122 228 239 16 50268 80 506 1056 39265 1559430 7']]
-        label, feature = tf.decode_csv(value, field_delim=',', record_defaults=record_defaults)
+        dataset = tf.data.TFRecordDataset([name])
+        dataset = dataset.map(parse_function)
+        dataset = dataset.shuffle(buffer_size=1500)
+        dataset = dataset.batch(batch_size)
+        iterator = dataset.make_one_shot_iterator()
+        next_element = iterator.get_next()
+    return next_element
 
-        feature = tf.string_split([feature], ' ').values
-        feature = tf.string_to_number(feature)
-        feature = tf.reshape(feature, [data_shape])
-        label = tf.cast(tf.string_to_number(label), tf.uint8)
-        label = tf.one_hot(label, 2, 1 ,0)
-        label = tf.cast(label, tf.float32)
-        feature, label = tf.train.shuffle_batch(
-            [feature, label], batch_size=batch_size,
-            capacity=1000+3*batch_size, min_after_dequeue=2*batch_size,
-            num_threads=32
-        )
-
-        feature = tf.reshape(feature, [batch_size, data_shape])
-        label = tf.reshape(label, [batch_size, 2])
-
-    return feature, label
+# next_element = get_data('./data/tfrecord/data_train.tfrecord')
+# sess = tf.InteractiveSession()
+# while True:
+#     try:
+#         data, label = sess.run([next_element['data'], next_element['label']])
+#         print(data, label)
+#     except tf.errors.OutOfRangeError:
+#         print('Finish...')
+#         break

@@ -9,8 +9,8 @@ parser.add_argument('--batch_size', type=int, default=32)
 parser.add_argument('--data_shape', type=int, default=16)
 parser.add_argument('--train_data_num', type=int, default=1550)
 parser.add_argument('--valid_data_num', type=int, default=666)
-parser.add_argument('--file_train', type=str, default='./data/process/data_train.txt')
-parser.add_argument('--file_valid', type=str, default='./data/process/data_valid.txt')
+parser.add_argument('--file_train', type=str, default='./data/tfrecord/data_train.tfrecord')
+parser.add_argument('--file_valid', type=str, default='./data/tfrecord/data_valid.tfrecord')
 
 def get_config():
     config, unparsed = parser.parse_known_args()

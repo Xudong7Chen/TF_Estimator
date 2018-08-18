@@ -11,8 +11,8 @@ para, _ = get_config()
 
 
 print('Creating input pipeline...') #数据以#号结束
-train_feature, train_label = get_data(para.file_train, para.batch_size)
-valid_feature, valid_label = get_data(para.file_valid, para.batch_size)
+train = get_data(para.file_train, para.batch_size)
+valid = get_data(para.file_valid, para.batch_size)
 print('Success.')    
 
 train_data_num = para.train_data_num
@@ -51,7 +51,7 @@ if para.is_train == True:
 
         if (step * para.batch_size) % train_data_num == 0:
             epoch = epoch + 1
-        training_array, training_label = sess.run([train_feature, train_label])
+        training_array, training_label = sess.run([train['data'], train['label']])
         train_feed_dict = {
             inputs_placeholder: training_array,
             label_placeholder: training_label}
@@ -64,7 +64,7 @@ if para.is_train == True:
         if step % 2000 == 0:
             print('Validing----------------------------------')
             for _ in range(5):
-                validing_array, validing_label = sess.run([valid_feature, valid_label])
+                validing_array, validing_label = sess.run([valid['data'], valid['label']])
                 valid_feed_dict = {
                     inputs_placeholder: validing_array,
                     label_placeholder: validing_label}
