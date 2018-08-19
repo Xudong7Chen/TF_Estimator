@@ -8,7 +8,7 @@ from data_input import get_data
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 para, _ = get_config()
-
+#1
 
 print('Creating input pipeline...') #数据以#号结束
 train_feature, train_label = get_data(para.file_train, para.batch_size)
