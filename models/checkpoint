@@ -1,0 +1,5 @@
+model_checkpoint_path: "zzc_14000"
+all_model_checkpoint_paths: "zzc_8000"
+all_model_checkpoint_paths: "zzc_10000"
+all_model_checkpoint_paths: "zzc_12000"
+all_model_checkpoint_paths: "zzc_14000"
