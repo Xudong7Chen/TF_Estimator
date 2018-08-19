@@ -9,7 +9,7 @@ from data_input import get_data
 tf.logging.set_verbosity(tf.logging.INFO)
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 para, _ = get_config()
-
+111
 def my_model(features, labels, mode, params):
 
     def prelu(inputs):
