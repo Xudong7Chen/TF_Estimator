@@ -5,7 +5,7 @@ from utils import cal_acc
 import os 
 from config import get_config
 from data_input import get_data 
-
+#l
 tf.logging.set_verbosity(tf.logging.INFO)
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 para, _ = get_config()
