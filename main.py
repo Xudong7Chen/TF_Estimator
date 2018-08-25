@@ -17,4 +17,3 @@ classifier = tf.estimator.Estimator(model_fn=my_model_fn,
                                             'num_of_classes': 2})
 # a = classifier.train(input_fn=lambda:get_data(para.file_train, para.batch_size), steps=100000)
 a = classifier.evaluate(input_fn=lambda:get_data(para.file_valid, para.batch_size))
-a = classifier.evaluate(input_fn=lambda:get_data(para.file_valid, para.batch_size))
